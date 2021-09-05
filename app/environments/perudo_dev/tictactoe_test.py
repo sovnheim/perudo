@@ -80,7 +80,7 @@ class TicTacToeEnv(gym.Env):
             return 1, True
 
         if self.turns_taken == self.num_squares:
-            logger.debug("Board full")
+            print("Board full")
             return 0, True
 
         return 0, False
@@ -121,31 +121,31 @@ class TicTacToeEnv(gym.Env):
         self.current_player_num = 0
         self.turns_taken = 0
         self.done = False
-        logger.debug(f'\n\n---- NEW GAME ----')
+        print(f'\n\n---- NEW GAME ----')
         return self.observation
 
     def render(self, mode='human', close=False, verbose=True):
-        logger.debug('')
+        print('')
         if close:
             return
         if self.done:
-            logger.debug(f'GAME OVER')
+            print(f'GAME OVER')
         else:
-            logger.debug(
+            print(
                 f"It is Player {self.current_player.id}'s turn to move")
 
-        logger.debug(
+        print(
             ' '.join([x.symbol for x in self.board[:self.grid_length]]))
-        logger.debug(
+        print(
             ' '.join([x.symbol for x in self.board[self.grid_length:self.grid_length*2]]))
-        logger.debug(' '.join(
+        print(' '.join(
             [x.symbol for x in self.board[(self.grid_length*2):(self.grid_length*3)]]))
 
         if self.verbose:
-            logger.debug(f'\nObservation: \n{self.observation}')
+            print(f'\nObservation: \n{self.observation}')
 
         if not self.done:
-            logger.debug(
+            print(
                 f'\nLegal actions: {[i for i,o in enumerate(self.legal_actions) if o != 0]}')
 
     def rules_move(self):
@@ -157,17 +157,17 @@ class TicTacToeEnv(gym.Env):
         # Check computer win moves
         for i in range(0, self.num_squares):
             if b[i] == 0 and testWinMove(b, 1, i):
-                logger.debug('Winning move')
+                print('Winning move')
                 return self.create_action_probs(i)
         # Check player win moves
         for i in range(0, self.num_squares):
             if b[i] == 0 and testWinMove(b, -1, i):
-                logger.debug('Block move')
+                print('Block move')
                 return self.create_action_probs(i)
         # Check computer fork opportunities
         for i in range(0, self.num_squares):
             if b[i] == 0 and testForkMove(b, 1, i):
-                logger.debug('Create Fork')
+                print('Create Fork')
                 return self.create_action_probs(i)
         # Check player fork opportunities, incl. two forks
         playerForks = 0
@@ -176,26 +176,26 @@ class TicTacToeEnv(gym.Env):
                 playerForks += 1
                 tempMove = i
         if playerForks == 1:
-            logger.debug('Block One Fork')
+            print('Block One Fork')
             return self.create_action_probs(tempMove)
         elif playerForks == 2:
             for j in [1, 3, 5, 7]:
                 if b[j] == 0:
-                    logger.debug('Block 2 Forks')
+                    print('Block 2 Forks')
                     return self.create_action_probs(j)
         # Play center
         if b[4] == 0:
-            logger.debug('Play Centre')
+            print('Play Centre')
             return self.create_action_probs(4)
         # Play a corner
         for i in [0, 2, 6, 8]:
             if b[i] == 0:
-                logger.debug('Play Corner')
+                print('Play Corner')
                 return self.create_action_probs(i)
         # Play a side
         for i in [1, 3, 5, 7]:
             if b[i] == 0:
-                logger.debug('Play Side')
+                print('Play Side')
                 return self.create_action_probs(i)
 
     def create_action_probs(self, action):

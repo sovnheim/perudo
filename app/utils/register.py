@@ -5,6 +5,9 @@ def get_environment(env_name):
         if env_name in ('tictactoe'):
             from tictactoe.envs.tictactoe import TicTacToeEnv
             return TicTacToeEnv
+        elif env_name in ('numberguesser'):
+            from numberguesser.envs.numberguesser import NumberGuesserEnv
+            return NumberGuesserEnv
         elif env_name in ('connect4'):
             from connect4.envs.connect4 import Connect4Env
             return Connect4Env
@@ -26,8 +29,8 @@ def get_environment(env_name):
         print(e)
         raise Exception(f'Syntax Error for {env_name}!')
     except:
-        raise Exception(f'Install the environment first using: \nbash scripts/install_env.sh {env_name}\nAlso ensure the environment is added to /utils/register.py')
-    
+        raise Exception(
+            f'Install the environment first using: \nbash scripts/install_env.sh {env_name}\nAlso ensure the environment is added to /utils/register.py')
 
 
 def get_network_arch(env_name):
@@ -51,4 +54,3 @@ def get_network_arch(env_name):
         return CustomPolicy
     else:
         raise Exception(f'No model architectures found for {env_name}')
-
